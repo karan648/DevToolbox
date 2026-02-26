@@ -14,7 +14,8 @@ export async function middleware(request: NextRequest) {
 
   if (isDashboard && !token) {
     const loginUrl = new URL("/auth/login", request.url);
-    loginUrl.searchParams.set("callbackUrl", request.url);
+    const callbackPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
+    loginUrl.searchParams.set("callbackUrl", callbackPath || "/dashboard");
     return NextResponse.redirect(loginUrl);
   }
 

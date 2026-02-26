@@ -32,6 +32,19 @@ function getTabFromQuery(value: string | null): AuthTab {
   return value === "signup" ? "signup" : "login";
 }
 
+function sanitizeCallbackUrl(value: string | null) {
+  if (!value) return "/dashboard";
+  if (value.startsWith("/")) return value;
+
+  try {
+    const url = new URL(value);
+    const safePath = `${url.pathname}${url.search}${url.hash}`;
+    return safePath.startsWith("/") ? safePath : "/dashboard";
+  } catch {
+    return "/dashboard";
+  }
+}
+
 export function AuthTabsCard() {
   const params = useSearchParams();
 
@@ -42,7 +55,7 @@ export function AuthTabsCard() {
     setTab(tabFromQuery);
   }, [tabFromQuery]);
 
-  const callbackUrl = params.get("callbackUrl") || "/dashboard";
+  const callbackUrl = sanitizeCallbackUrl(params.get("callbackUrl"));
 
   const loginForm = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -75,7 +88,7 @@ export function AuthTabsCard() {
     }
 
     toast.success("Welcome to DevToolbox");
-    window.location.assign(result.url || callbackUrl);
+    window.location.assign(callbackUrl);
   };
 
   const handleLogin = loginForm.handleSubmit(async (values) => {

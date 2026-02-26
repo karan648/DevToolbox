@@ -3,6 +3,7 @@
 import { Bell, ChevronDown, Command, Search } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,13 +13,17 @@ export function DashboardTopbar() {
 
   return (
     <header className="flex flex-wrap items-center justify-between gap-3 border-b-[3px] border-black bg-slate-900 px-4 py-3 md:px-6">
-      <div className="relative min-w-[240px] flex-1 md:max-w-xl">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-        <Input
-          readOnly
-          value="Search tools or commands... (Ctrl + K)"
-          className="cursor-pointer bg-slate-800 pl-9 text-xs font-bold text-slate-400"
-        />
+      <div className="flex min-w-0 flex-1 items-center gap-2 md:max-w-2xl">
+        <SidebarTrigger />
+
+        <div className="relative min-w-0 flex-1">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <Input
+            readOnly
+            value="Search tools or commands... (Ctrl + K)"
+            className="cursor-pointer bg-slate-800 pl-9 text-xs font-bold text-slate-400"
+          />
+        </div>
       </div>
 
       <div className="flex items-center gap-2">
