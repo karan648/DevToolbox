@@ -31,3 +31,21 @@ export const dockerSchema = z.object({
   restart: z.boolean().default(false),
   detached: z.boolean().default(true),
 });
+
+export const repoAnalyzerSchema = z.object({
+  repoUrl: z
+    .string()
+    .url("A valid GitHub URL is required")
+    .refine((value) => {
+      try {
+        const url = new URL(value);
+        return url.hostname === "github.com" || url.hostname === "www.github.com";
+      } catch {
+        return false;
+      }
+    }, "Only GitHub repository URLs are supported"),
+});
+
+export const securityHeadersSchema = z.object({
+  url: z.string().url("Valid URL required"),
+});

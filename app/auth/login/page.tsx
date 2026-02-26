@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { AuthForm } from "@/components/layout/auth-form";
+import { AuthTabsCard } from "@/components/layout/auth-tabs-card";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
@@ -30,16 +30,31 @@ export default function LoginPage() {
               Build faster, <span className="bg-yellow px-2 text-black">smarter</span> together.
             </h1>
             <p className="mt-5 text-lg text-slate-300">
-              The neobrutal workspace for APIs, env files, JSON transforms, and AI debugging.
+              Ship faster with one workspace for APIs, infra commands, transformers, and AI
+              debugging.
             </p>
+            <div className="mt-6 flex gap-2">
+              <span className="rounded-full border-[3px] border-black bg-blue px-3 py-1 text-xs font-black text-black">
+                API
+              </span>
+              <span className="rounded-full border-[3px] border-black bg-green px-3 py-1 text-xs font-black text-black">
+                JSON
+              </span>
+              <span className="rounded-full border-[3px] border-black bg-orange px-3 py-1 text-xs font-black text-black">
+                Docker
+              </span>
+            </div>
           </div>
           <div className="h-60 rounded-3xl border-[4px] border-black bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 p-8 shadow-brutal">
-            <p className="font-display text-4xl font-black text-yellow">JOIN THE CLUB</p>
-            <p className="mt-2 text-sm text-slate-300">Cartoon workspace image placeholder.</p>
+            <p className="font-display text-4xl font-black text-yellow">TEAM READY</p>
+            <p className="mt-2 text-sm text-slate-300">
+              Graphic placeholder: onboarding scene / engineering team collaboration.
+            </p>
           </div>
         </div>
+
         <div className="flex items-center justify-center">
-          <AuthForm mode="login" />
+          <AuthTabsCard />
         </div>
       </main>
     </div>

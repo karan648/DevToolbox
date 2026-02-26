@@ -3,9 +3,12 @@ import {
   Braces,
   Container,
   FlaskConical,
+  GitBranch,
   Home,
+  KeySquare,
   KeyRound,
   Settings,
+  Shield,
 } from "lucide-react";
 
 export const APP_NAME = "DevToolbox";
@@ -43,6 +46,24 @@ export const TOOL_LINKS = [
     key: "docker-builder",
   },
   {
+    href: "/dashboard/repo-analyzer",
+    label: "Repo Analyzer",
+    icon: GitBranch,
+    key: "repo-analyzer",
+  },
+  {
+    href: "/dashboard/security-headers",
+    label: "Security Headers",
+    icon: Shield,
+    key: "security-headers",
+  },
+  {
+    href: "/dashboard/jwt-inspector",
+    label: "JWT Inspector",
+    icon: KeySquare,
+    key: "jwt-inspector",
+  },
+  {
     href: "/dashboard/settings",
     label: "Settings",
     icon: Settings,
@@ -65,7 +86,13 @@ export const PRICING_TIERS = [
     price: "$19",
     subtitle: "For builders shipping weekly",
     cta: "Upgrade to Pro",
-    features: ["All 5 Tools", "AI Error Debugger", "Usage Analytics", "Recent History"],
+    features: [
+      "All Core Tools",
+      "Repo Analyzer",
+      "Security Audit Tools",
+      "Usage Analytics",
+      "Recent History",
+    ],
     color: "bg-yellow",
     featured: true,
   },
@@ -105,5 +132,20 @@ export const FEATURE_CARDS = [
     title: "Docker Builder",
     description: "Generate docker run and compose commands from visual forms.",
     color: "bg-orange",
+  },
+  {
+    title: "Repo Analyzer",
+    description: "Scan GitHub repos for setup instructions, env vars, and risks.",
+    color: "bg-blue",
+  },
+  {
+    title: "Security Headers Audit",
+    description: "Check response headers and compliance gaps for production URLs.",
+    color: "bg-green",
+  },
+  {
+    title: "JWT Inspector",
+    description: "Decode tokens, inspect claims, and validate expiration in seconds.",
+    color: "bg-coral",
   },
 ] as const;

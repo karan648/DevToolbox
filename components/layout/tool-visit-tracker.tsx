@@ -22,6 +22,15 @@ const mapPathToTool = (pathname: string): { name: ToolName; path: string } => {
   if (pathname.startsWith("/dashboard/docker-builder")) {
     return { name: "docker-builder", path: "/dashboard/docker-builder" };
   }
+  if (pathname.startsWith("/dashboard/repo-analyzer")) {
+    return { name: "repo-analyzer", path: "/dashboard/repo-analyzer" };
+  }
+  if (pathname.startsWith("/dashboard/security-headers")) {
+    return { name: "security-headers", path: "/dashboard/security-headers" };
+  }
+  if (pathname.startsWith("/dashboard/jwt-inspector")) {
+    return { name: "jwt-inspector", path: "/dashboard/jwt-inspector" };
+  }
   if (pathname.startsWith("/dashboard/settings")) {
     return { name: "settings", path: "/dashboard/settings" };
   }

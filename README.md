@@ -26,6 +26,9 @@ Production-ready SaaS web application for developer productivity with a neobruta
   - JSON/Data Transformer
   - AI Error Debugger
   - Docker Command Builder
+  - Repo Analyzer
+  - Security Headers Audit
+  - JWT Inspector
 - Settings page (profile/theme/API key placeholder)
 - Command palette (Cmd/Ctrl + K)
 - Recent tools history

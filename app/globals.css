@@ -44,3 +44,42 @@ html.light body {
     radial-gradient(circle at 100% 20%, rgba(34, 197, 94, 0.12), transparent 30%),
     linear-gradient(180deg, rgba(245, 241, 227, 1) 0%, rgba(248, 245, 236, 1) 100%);
 }
+
+@layer base {
+  html.light .bg-shell {
+    background-color: #f8f4e6 !important;
+  }
+
+  html.light .bg-slate-950 {
+    background-color: #d8dfec !important;
+  }
+
+  html.light .bg-slate-900,
+  html.light .bg-slate-900\/95,
+  html.light .bg-slate-900\/90,
+  html.light .bg-slate-800,
+  html.light .bg-slate-800\/95,
+  html.light .bg-slate-700 {
+    background-color: #eaf0fa !important;
+  }
+
+  html.light .text-white,
+  html.light .text-slate-100,
+  html.light .text-slate-200 {
+    color: #0f172a !important;
+  }
+
+  html.light .text-slate-300 {
+    color: #334155 !important;
+  }
+
+  html.light .text-slate-400,
+  html.light .text-slate-500,
+  html.light .placeholder\:text-slate-500::placeholder {
+    color: #475569 !important;
+  }
+
+  html.light .bg-black\/60 {
+    background-color: rgba(15, 23, 42, 0.25) !important;
+  }
+}

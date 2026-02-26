@@ -5,6 +5,9 @@ export type ToolName =
   | "json-tools"
   | "error-debugger"
   | "docker-builder"
+  | "repo-analyzer"
+  | "security-headers"
+  | "jwt-inspector"
   | "settings";
 
 export type RecentTool = {
