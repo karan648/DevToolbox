@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Wrench } from "lucide-react";
+import { Coffee, Github, Wrench } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { APP_NAME } from "@/lib/constants";
+import { APP_NAME, BUY_ME_A_COFFEE_URL, OPEN_SOURCE_GITHUB_URL } from "@/lib/constants";
 
 export function SiteHeader() {
   return (
@@ -37,6 +37,26 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <a
+            href={OPEN_SOURCE_GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub Repository"
+          >
+            <Button size="icon" variant="white">
+              <Github className="h-4 w-4" />
+            </Button>
+          </a>
+          <a
+            href={BUY_ME_A_COFFEE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Buy Me a Coffee"
+          >
+            <Button size="icon" variant="orange">
+              <Coffee className="h-4 w-4" />
+            </Button>
+          </a>
           <ThemeToggle />
           <Link href="/auth/signup">
             <Button size="sm" variant="yellow">

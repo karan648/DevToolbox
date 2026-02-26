@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 
 export const APP_NAME = "DevToolbox";
+export const OPEN_SOURCE_GITHUB_URL = "https://github.com/karannn/devtoolbox";
+export const BUY_ME_A_COFFEE_URL = "https://buymeacoffee.com/karannn";
 
 export const TOOL_LINKS = [
   { href: "/dashboard", label: "Dashboard", icon: Home, key: "dashboard" },
