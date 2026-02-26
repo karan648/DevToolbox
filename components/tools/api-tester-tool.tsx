@@ -54,7 +54,8 @@ export function ApiTesterTool() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Request failed");
+        const detail = typeof data.detail === "string" ? data.detail : "";
+        setError(detail ? `${data.error || "Request failed"}: ${detail}` : data.error || "Request failed");
         return;
       }
 

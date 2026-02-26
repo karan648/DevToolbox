@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/lib/auth";
+import { getSafeServerSession } from "@/lib/auth-session";
 import { apiTesterSchema } from "@/lib/validations";
 import { logToolUsage } from "@/server/tools/usage";
 
@@ -32,12 +31,21 @@ export async function POST(request: Request) {
     const contentType = response.headers.get("content-type") || "";
     const responseText = await response.text();
 
-    const body =
-      contentType.includes("application/json") && responseText
-        ? JSON.parse(responseText)
-        : responseText;
+    let body: unknown = responseText;
+    const isJsonLike = contentType.includes("application/json") || contentType.includes("+json");
 
-    const session = await getServerSession(authOptions);
+    if (isJsonLike && responseText) {
+      try {
+        body = JSON.parse(responseText);
+      } catch {
+        body = {
+          parseError: "Invalid JSON returned by upstream API",
+          raw: responseText,
+        };
+      }
+    }
+
+    const session = await getSafeServerSession();
     await logToolUsage({
       userId: session?.user?.id,
       toolName: "api-tester",

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/lib/auth";
+import { getSafeServerSession } from "@/lib/auth-session";
 import { envInputSchema } from "@/lib/validations";
 import { parseEnv, envToJson } from "@/server/tools/env";
 import { logToolUsage } from "@/server/tools/usage";
@@ -19,7 +18,7 @@ export async function POST(request: Request) {
     }
 
     const result = parseEnv(parsed.data.raw);
-    const session = await getServerSession(authOptions);
+    const session = await getSafeServerSession();
     await logToolUsage({
       userId: session?.user?.id,
       toolName: "env-manager",

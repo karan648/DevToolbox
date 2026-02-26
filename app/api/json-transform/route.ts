@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/lib/auth";
+import { getSafeServerSession } from "@/lib/auth-session";
 import { jsonTransformSchema } from "@/lib/validations";
 import {
   jsonToSql,
@@ -29,7 +28,7 @@ export async function POST(request: Request) {
           ? jsonToZod(parsed.data.json)
           : jsonToSql(parsed.data.json);
 
-    const session = await getServerSession(authOptions);
+    const session = await getSafeServerSession();
     await logToolUsage({
       userId: session?.user?.id,
       toolName: "json-tools",

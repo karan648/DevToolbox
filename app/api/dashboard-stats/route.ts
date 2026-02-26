@@ -3,9 +3,8 @@ import os from "node:os";
 import { promisify } from "node:util";
 
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/lib/auth";
+import { getSafeServerSession } from "@/lib/auth-session";
 import { prisma } from "@/lib/prisma";
 
 const execAsync = promisify(exec);
@@ -55,7 +54,7 @@ function getMemoryMetrics() {
 }
 
 export async function GET(request: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await getSafeServerSession();
 
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

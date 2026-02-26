@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/lib/auth";
+import { getSafeServerSession } from "@/lib/auth-session";
 import { securityHeadersSchema } from "@/lib/validations";
 import { logToolUsage } from "@/server/tools/usage";
 
@@ -88,7 +87,7 @@ export async function POST(request: Request) {
       warnings.push("Missing CSP can increase XSS risk.");
     }
 
-    const session = await getServerSession(authOptions);
+    const session = await getSafeServerSession();
     await logToolUsage({
       userId: session?.user?.id,
       toolName: "security-headers",

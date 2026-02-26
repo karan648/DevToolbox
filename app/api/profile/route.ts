@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 import { z } from "zod";
 
-import { authOptions } from "@/lib/auth";
+import { getSafeServerSession } from "@/lib/auth-session";
 import { prisma } from "@/lib/prisma";
 
 const updateProfileSchema = z.object({
@@ -10,7 +9,7 @@ const updateProfileSchema = z.object({
 });
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
+  const session = await getSafeServerSession();
 
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -35,7 +34,7 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await getSafeServerSession();
 
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
