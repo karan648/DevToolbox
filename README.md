@@ -69,6 +69,9 @@ cp .env.example .env
 ```
 
 3. Set your database URL and auth/provider keys in `.env`.
+   - For magic-link emails via Resend, set `RESEND_API_KEY` and `EMAIL_FROM` (verified sender).
+   - If `RESEND_API_KEY` is missing, SMTP (`EMAIL_SERVER`) is used.
+   - If both are missing in local dev, magic links are printed to server logs.
 
 4. Generate Prisma client and push schema:
 
