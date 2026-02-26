@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DevToolbox | AI Error Debugger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd400",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#0F172A",
+                        "card-dark": "#1E293B",
+                        "border-dark": "#000000"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'neo': '4px 4px 0px 0px #000000',
+                        'neo-lg': '8px 8px 0px 0px #000000',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A;
+        }
+        .neubrutalism-border {
+            border: 3px solid #000000;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-slate-100 min-h-screen">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b-4 border-black bg-primary px-6 py-4 shadow-neo">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-black">
+<span class="material-symbols-outlined text-3xl font-bold">terminal</span>
+<h2 class="text-2xl font-black uppercase tracking-tighter">DevToolbox</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-black text-sm font-black uppercase hover:underline underline-offset-4" href="#">Dashboard</a>
+<a class="text-black text-sm font-black uppercase hover:underline underline-offset-4" href="#">History</a>
+<a class="text-black text-sm font-black uppercase hover:underline underline-offset-4" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:block">
+<label class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-black">search</span>
+<input class="neubrutalism-border bg-white text-black pl-10 pr-4 py-2 font-bold focus:ring-0 focus:outline-none placeholder:text-slate-500 shadow-neo" placeholder="Search Tools..." type="text"/>
+</label>
+</div>
+<button class="neubrutalism-border bg-white p-2 flex items-center justify-center shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+<span class="material-symbols-outlined text-black">notifications</span>
+</button>
+<div class="neubrutalism-border size-10 bg-slate-200 overflow-hidden shadow-neo">
+<img alt="User Avatar" data-alt="Minimalist illustrated character avatar for user profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLSQF9RnY346yAtgzvC67086hKk0d-x7C_BYP4hGFpYhXALdeXXjKB27ejzCnUbb816VYx2krnhD0DuEpDD2MwZVpYlNuSvm7yxmZjblyfscfIpm-mq7j98Y7wEe5ISDAMIT-nJ_NwKDGZWjM5ApUMuNesqmEyEDtFTtCNRGeBtANcv_ke4HqTkakH3Gb7oE11JsSDWgy7HKOU5V9cSIUzOyTAmNQet9DbDI4oAi1kfD0Fj72bMLrhGnMlftaXwZ-qNhOlgL7RuXg"/>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto w-full px-6 py-12 flex flex-col gap-10">
+<!-- Hero Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+<div class="space-y-2">
+<span class="bg-primary text-black px-3 py-1 font-black text-xs uppercase neubrutalism-border inline-block shadow-neo">AI Powered</span>
+<h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white">Error <span class="text-primary">Debugger</span></h1>
+<p class="text-slate-400 text-lg max-w-xl font-medium">Stop hunting for bugs manually. Paste your stack trace and let our AI find the needle in the haystack.</p>
+</div>
+<div class="hidden lg:block">
+<div class="neubrutalism-border bg-white p-4 shadow-neo-lg rotate-3 max-w-[200px]">
+<img alt="Success Mascot" class="w-full" data-alt="Friendly yellow robot mascot waving happily illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEALWrVk39uIJHQvq0xlcxo23_3s36rlWSut1Nm0Lq7uP5fq_jyw_Cz0mxUbo-fL1gx73TyMiiSnWzB0OTKuqUyikNxHc7x7U_HpVKpbQ9QeOqBkSj38VCj46LV7uOKOWj8wFyksiwtYSf23FePwEkjF3b9s7ZFB13MPB7M4QquOr9QZpZRXklSZbukNNNLf3B6NMZ2pklPIMo33Lk8YVTAgBdEa8NSQLch7bc2O3Jy0jWtZqfEJbR_1bW6ooXl6XNbqFZnA3jNjE"/>
+<p class="text-black font-black text-center mt-2 text-sm uppercase">I'll fix it!</p>
+</div>
+</div>
+</div>
+<!-- Debugger Workspace -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Input Area -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="neubrutalism-border bg-card-dark p-6 shadow-neo-lg">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">data_object</span>
+<h3 class="text-xl font-black uppercase text-white">Input Stack Trace</h3>
+</div>
+<textarea class="w-full h-80 neubrutalism-border bg-slate-900 text-green-400 font-mono p-4 focus:ring-0 focus:outline-none placeholder:text-slate-600 shadow-neo resize-none" placeholder="TypeError: Cannot read property 'map' of undefined
+  at UserProfile.render (src/components/UserProfile.js:45:21)
+  at finishClassComponent (node_modules/react-dom/cjs/react-dom.development.js:18471:31)..."></textarea>
+<div class="mt-6 flex flex-wrap gap-4">
+<button class="bg-primary text-black px-8 py-4 font-black uppercase text-lg neubrutalism-border shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">bolt</span>
+                                Analyze Error
+                            </button>
+<button class="bg-white text-black px-6 py-4 font-black uppercase text-lg neubrutalism-border shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">delete</span>
+                                Clear
+                            </button>
+</div>
+</div>
+</div>
+<!-- Analysis Result Card -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="neubrutalism-border bg-white p-1 shadow-neo-lg">
+<div class="bg-black text-white p-4 flex justify-between items-center">
+<h3 class="text-xl font-black uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">psychology</span>
+                                AI Analysis
+                            </h3>
+<span class="text-xs font-bold px-2 py-1 border border-white">READY</span>
+</div>
+<div class="p-6 space-y-8 text-black">
+<!-- Root Cause -->
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-red-600 font-bold">bug_report</span>
+<h4 class="font-black uppercase text-sm tracking-widest">Root Cause</h4>
+</div>
+<p class="font-bold text-lg leading-tight">
+                                    The `userData` object is null when the component attempts to render the activity list. This usually happens when the API call hasn't finished yet.
+                                </p>
+</div>
+<!-- Explanation -->
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-blue-600 font-bold">info</span>
+<h4 class="font-black uppercase text-sm tracking-widest">Explanation</h4>
+</div>
+<p class="text-slate-700 font-medium">
+                                    You're calling `.map()` on an array that doesn't exist yet. React tries to render the component immediately, but your asynchronous data fetch is still in flight.
+                                </p>
+</div>
+<!-- Suggested Fix -->
+<div class="space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-green-600 font-bold">check_circle</span>
+<h4 class="font-black uppercase text-sm tracking-widest">Suggested Fix</h4>
+</div>
+<div class="neubrutalism-border bg-slate-900 p-4 font-mono text-sm text-white shadow-neo">
+<span class="text-slate-500">// Use optional chaining</span><br/>
+<span class="text-primary">userData?.activities</span>.map(...)<br/><br/>
+<span class="text-slate-500">// Or a loading state</span><br/>
+                                    if (!userData) return &lt;Loading /&gt;
+                                </div>
+</div>
+<button class="w-full bg-black text-white py-3 font-black uppercase text-sm neubrutalism-border hover:bg-slate-800 transition-colors">
+                                Copy Fix to Clipboard
+                            </button>
+</div>
+</div>
+<!-- Extra Help Card -->
+<div class="neubrutalism-border bg-emerald-400 p-6 shadow-neo-lg text-black">
+<h4 class="font-black uppercase mb-2">Pro Tip</h4>
+<p class="font-bold text-sm">Use React Query or SWR to handle these loading states automatically. It prevents most "undefined" errors by design!</p>
+</div>
+</div>
+</div>
+<!-- Recent History -->
+<div class="mt-10">
+<h3 class="text-2xl font-black uppercase text-white mb-6">Recent Debugging Sessions</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="neubrutalism-border bg-slate-800 p-4 shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-red-500 text-black px-2 py-0.5 text-xs font-black uppercase neubrutalism-border">TypeError</span>
+<span class="text-slate-500 text-xs font-bold">2m ago</span>
+</div>
+<p class="text-white font-bold truncate">Cannot read property 'id' of null</p>
+</div>
+<div class="neubrutalism-border bg-slate-800 p-4 shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-primary text-black px-2 py-0.5 text-xs font-black uppercase neubrutalism-border">ReferenceError</span>
+<span class="text-slate-500 text-xs font-bold">15m ago</span>
+</div>
+<p class="text-white font-bold truncate">process is not defined</p>
+</div>
+<div class="neubrutalism-border bg-slate-800 p-4 shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-blue-400 text-black px-2 py-0.5 text-xs font-black uppercase neubrutalism-border">Network</span>
+<span class="text-slate-500 text-xs font-bold">1h ago</span>
+</div>
+<p class="text-white font-bold truncate">CORS policy: No 'Access-Control-Allow-Origin'</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="border-t-4 border-black bg-slate-900 px-6 py-8 mt-auto">
+<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-primary font-black">terminal</span>
+<span class="font-black uppercase tracking-widest">DevToolbox © 2024</span>
+</div>
+<div class="flex gap-8">
+<a class="text-slate-400 font-bold hover:text-primary transition-colors uppercase text-sm" href="#">Documentation</a>
+<a class="text-slate-400 font-bold hover:text-primary transition-colors uppercase text-sm" href="#">Privacy</a>
+<a class="text-slate-400 font-bold hover:text-primary transition-colors uppercase text-sm" href="#">GitHub</a>
+</div>
+<div class="flex gap-4">
+<div class="neubrutalism-border bg-primary p-2 shadow-neo">
+<span class="material-symbols-outlined text-black text-sm">star</span>
+</div>
+<div class="neubrutalism-border bg-white p-2 shadow-neo">
+<span class="material-symbols-outlined text-black text-sm">share</span>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

@@ -1,0 +1,17 @@
+.brutal-panel {
+  border: 3px solid #000;
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 #000;
+}
+
+.brutal-soft {
+  border: 3px solid #000;
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 #000;
+}
+
+.brutal-grid-bg {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 22px 22px;
+}

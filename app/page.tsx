@@ -1,65 +1,114 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Sparkles, TerminalSquare } from "lucide-react";
 
-export default function Home() {
+import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { FEATURE_CARDS, PRICING_TIERS } from "@/lib/constants";
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="min-h-screen bg-shell text-white">
+      <SiteHeader />
+
+      <main>
+        <section className="relative overflow-hidden border-b-[3px] border-black bg-shell px-4 py-16 md:px-6">
+          <div className="absolute -left-10 top-20 h-44 w-44 rounded-full border-[3px] border-black bg-yellow/80 blur-2xl" />
+          <div className="absolute right-10 top-10 h-40 w-40 rounded-full border-[3px] border-black bg-blue/60 blur-2xl" />
+
+          <div className="relative mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-2">
+            <div>
+              <Badge variant="yellow">V2.0 is now live</Badge>
+              <h1 className="mt-5 font-display text-5xl font-black leading-[0.95] text-white md:text-7xl">
+                The Developer <span className="bg-yellow px-2 text-black">Toolbox</span> you
+                keep open every day.
+              </h1>
+              <p className="mt-5 max-w-xl text-lg font-semibold text-slate-200">
+                All essential utilities for modern developers in one playful neobrutal
+                workspace.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href="/auth/signup">
+                  <Button size="lg">
+                    Start Free <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/dashboard">
+                  <Button variant="white" size="lg">
+                    Explore Tools
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            <Card className="overflow-hidden border-[4px] p-4">
+              <div className="rounded-xl border-[3px] border-black bg-gradient-to-br from-cyan-200 via-cyan-100 to-emerald-200 p-5">
+                <div className="flex items-center justify-between">
+                  <Badge variant="blue">Fast Workflow</Badge>
+                  <TerminalSquare className="h-6 w-6 text-black" />
+                </div>
+                <div className="mt-6 h-64 rounded-xl border-[3px] border-black bg-white/80 p-4">
+                  <p className="font-display text-2xl font-black text-black">Cartoon Dev Illustration</p>
+                  <p className="mt-2 text-sm font-semibold text-slate-700">
+                    Placeholder for branded artwork from your design pack.
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </section>
+
+        <section id="features" className="mx-auto max-w-7xl px-4 py-14 md:px-6">
+          <h2 className="font-display text-4xl font-black">
+            Everything you need, <span className="text-blue">nothing you don&apos;t.</span>
+          </h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {FEATURE_CARDS.map((feature) => (
+              <Card key={feature.title} className="p-4">
+                <div className={`h-2 w-16 rounded-full border-[3px] border-black ${feature.color}`} />
+                <p className="mt-4 font-display text-xl font-black">{feature.title}</p>
+                <p className="mt-2 text-sm text-slate-300">{feature.description}</p>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-4 pb-12 md:px-6">
+          <div className="mb-5 flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-yellow" />
+            <h2 className="font-display text-4xl font-black">
+              Simple <span className="bg-green px-2 text-black">Pricing</span>
+            </h2>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {PRICING_TIERS.map((tier) => (
+              <Card
+                key={tier.name}
+                className={`p-5 ${tier.featured ? "translate-y-[-4px] border-[4px]" : ""}`}
+              >
+                <p className="text-sm font-black uppercase text-slate-300">{tier.name}</p>
+                <p className="mt-2 font-display text-5xl font-black text-white">{tier.price}</p>
+                <p className="mt-2 text-sm text-slate-300">{tier.subtitle}</p>
+                <ul className="mt-4 space-y-2 text-sm font-semibold text-slate-200">
+                  {tier.features.map((feature) => (
+                    <li key={feature}>• {feature}</li>
+                  ))}
+                </ul>
+                <Link href="/pricing" className="mt-4 block">
+                  <Button className="w-full" variant={tier.featured ? "yellow" : "white"}>
+                    {tier.cta}
+                  </Button>
+                </Link>
+              </Card>
+            ))}
+          </div>
+        </section>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }
