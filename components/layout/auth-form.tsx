@@ -1,10 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Github, LogIn, UserPlus } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -14,18 +14,21 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 const schema = z.object({
+  name: z.string().min(2).max(80).optional(),
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(8),
 });
 
 type FormValues = z.infer<typeof schema>;
 
 export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const params = useSearchParams();
+  const router = useRouter();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
@@ -34,18 +37,38 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const callbackUrl = params.get("callbackUrl") || "/dashboard";
 
   const onSubmit = form.handleSubmit(async (values) => {
-    const action = await signIn("email", {
+    if (mode === "signup") {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.error || "Signup failed");
+        return;
+      }
+
+      toast.success("Account created. Signing you in...");
+    }
+
+    const result = await signIn("credentials", {
       email: values.email,
+      password: values.password,
       redirect: false,
       callbackUrl,
     });
 
-    if (action?.error) {
-      toast.error(action.error);
+    if (result?.error) {
+      toast.error("Invalid email or password");
       return;
     }
 
-    toast.success("Magic link sent. Check your inbox.");
+    toast.success("Welcome to DevToolbox");
+    router.push(result?.url || callbackUrl);
+    router.refresh();
   });
 
   return (
@@ -55,11 +78,20 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       </h1>
       <p className="mt-2 text-sm font-semibold text-slate-300">
         {mode === "login"
-          ? "Enter your workspace with email or Google."
-          : "Create your free DevToolbox account."}
+          ? "Use email/password, Google, or GitHub to enter your workspace."
+          : "Create your account with email and password, or continue with OAuth."}
       </p>
 
       <form className="mt-6 space-y-4" onSubmit={onSubmit}>
+        {mode === "signup" ? (
+          <div>
+            <label className="mb-1 block text-xs font-black uppercase text-slate-300">
+              Name
+            </label>
+            <Input placeholder="Alex Rivera" {...form.register("name")} />
+          </div>
+        ) : null}
+
         <div>
           <label className="mb-1 block text-xs font-black uppercase text-slate-300">Email</label>
           <Input placeholder="dev@toolbox.com" {...form.register("email")} />
@@ -67,15 +99,14 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         <div>
           <label className="mb-1 block text-xs font-black uppercase text-slate-300">Password</label>
           <Input type="password" placeholder="••••••••" {...form.register("password")} />
-          <p className="mt-1 text-[11px] text-slate-400">
-            Password is UI-only for this auth flow. Email login uses magic links.
-          </p>
         </div>
 
         <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-          <Mail className="h-4 w-4" />
+          {mode === "login" ? <LogIn className="h-4 w-4" /> : <UserPlus className="h-4 w-4" />}
           {form.formState.isSubmitting
-            ? "Sending Link..."
+            ? mode === "login"
+              ? "Signing in..."
+              : "Creating account..."
             : mode === "login"
               ? "Enter Workspace"
               : "Create Account"}
@@ -89,6 +120,13 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           onClick={() => signIn("google", { callbackUrl })}
         >
           Continue with Google
+        </Button>
+        <Button
+          className="w-full"
+          variant="white"
+          onClick={() => signIn("github", { callbackUrl })}
+        >
+          <Github className="h-4 w-4" /> Continue with GitHub
         </Button>
         <Link href={mode === "login" ? "/auth/signup" : "/auth/login"}>
           <Button variant="dark" className="w-full">

@@ -7,7 +7,7 @@ Production-ready SaaS web application for developer productivity with a neobruta
 - Next.js 14 (App Router) + TypeScript
 - Tailwind CSS + shadcn-style component primitives
 - Neobrutalism design system (custom component layer inspired by neobrutalism.dev)
-- NextAuth (Email + Google)
+- NextAuth (Credentials + Google + GitHub)
 - PostgreSQL + Prisma ORM (Supabase / Neon compatible)
 - OpenAI-compatible AI abstraction layer
 - Zustand state (command palette + recent tools)
@@ -68,12 +68,11 @@ npm install
 cp .env.example .env
 ```
 
-3. Set your database URL and auth/provider keys in `.env`.
-   - For magic-link emails via Resend, set `RESEND_API_KEY` and `EMAIL_FROM` (verified sender).
-   - If `RESEND_API_KEY` is missing, SMTP (`EMAIL_SERVER`) is used.
-   - If both are missing in local dev, magic links are printed to server logs.
+3. Set your database and auth credentials in `.env`:
+   - Required: `DATABASE_URL`, `DIRECT_URL`, `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
+   - Optional OAuth: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GITHUB_ID`, `GITHUB_SECRET`
 
-4. Generate Prisma client and push schema:
+4. Generate Prisma client and sync schema:
 
 ```bash
 npm run prisma:generate

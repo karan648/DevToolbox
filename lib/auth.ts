@@ -1,93 +1,70 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
-import EmailProvider from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { Resend } from "resend";
 
 import { prisma } from "@/lib/prisma";
 
 const hasGoogle =
   Boolean(process.env.GOOGLE_CLIENT_ID) &&
   Boolean(process.env.GOOGLE_CLIENT_SECRET);
-const hasSmtp =
-  Boolean(process.env.EMAIL_SERVER) && Boolean(process.env.EMAIL_FROM);
-const hasResend =
-  Boolean(process.env.RESEND_API_KEY) && Boolean(process.env.EMAIL_FROM);
+const hasGithub =
+  Boolean(process.env.GITHUB_ID) && Boolean(process.env.GITHUB_SECRET);
 
-const providers = [];
+const providers: NonNullable<NextAuthOptions["providers"]> = [
+  CredentialsProvider({
+    name: "Credentials",
+    credentials: {
+      email: { label: "Email", type: "email" },
+      password: { label: "Password", type: "password" },
+    },
+    async authorize(credentials) {
+      const email = credentials?.email?.trim().toLowerCase();
+      const password = credentials?.password;
 
-if (hasResend) {
-  const resend = new Resend(process.env.RESEND_API_KEY!);
+      if (!email || !password) {
+        return null;
+      }
 
-  providers.push(
-    EmailProvider({
-      // Kept for compatibility; delivery is handled by sendVerificationRequest.
-      server: { jsonTransport: true },
-      from: process.env.EMAIL_FROM!,
-      sendVerificationRequest: async ({ identifier, url, provider }) => {
-        const host = new URL(url).host;
-        const subject = `Sign in to DevToolbox`;
+      const user = await prisma.user.findUnique({ where: { email } });
 
-        const html = `
-          <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:20px;">
-            <h2 style="margin:0 0 12px 0;color:#0F172A;">Sign in to DevToolbox</h2>
-            <p style="color:#334155;font-size:14px;line-height:1.5;">
-              Click the button below to securely sign in to your account.
-            </p>
-            <a href="${url}" style="display:inline-block;margin-top:12px;padding:12px 18px;border:3px solid #000;background:#FFD600;color:#000;text-decoration:none;font-weight:700;border-radius:10px;">
-              Open DevToolbox
-            </a>
-            <p style="color:#64748B;font-size:12px;margin-top:16px;">
-              If you did not request this email, you can safely ignore it.
-            </p>
-            <p style="color:#64748B;font-size:12px;">Host: ${host}</p>
-          </div>
-        `;
+      if (!user?.password) {
+        return null;
+      }
 
-        const text = `Sign in to DevToolbox\n${url}\n\nHost: ${host}`;
+      const valid = await bcrypt.compare(password, user.password);
 
-        const { error } = await resend.emails.send({
-          from: provider.from as string,
-          to: identifier,
-          subject,
-          html,
-          text,
-        });
+      if (!valid) {
+        return null;
+      }
 
-        if (error) {
-          throw new Error(error.message || "Failed to send magic link via Resend");
-        }
-      },
-    }),
-  );
-} else if (hasSmtp) {
-  providers.push(
-    EmailProvider({
-      server: process.env.EMAIL_SERVER!,
-      from: process.env.EMAIL_FROM!,
-    }),
-  );
-} else {
-  providers.push(
-    EmailProvider({
-      // Dev fallback: avoid SMTP dependency and print magic link to server logs.
-      server: { jsonTransport: true },
-      from: "devtoolbox@local.test",
-      sendVerificationRequest: async ({ identifier, url }) => {
-        // eslint-disable-next-line no-console
-        console.info(
-          `[Auth:MagicLink]\nUser: ${identifier}\nOpen this URL to sign in:\n${url}\n`,
-        );
-      },
-    }),
-  );
-}
+      return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        image: user.image,
+        plan: user.plan,
+      };
+    },
+  }),
+];
 
 if (hasGoogle) {
   providers.push(
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  );
+}
+
+if (hasGithub) {
+  providers.push(
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
     }),
   );
 }
@@ -100,13 +77,13 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/auth/login",
-    verifyRequest: "/auth/login?sent=true",
   },
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
-        token.plan = (user as typeof user & { plan?: "FREE" | "PRO" | "TEAM" }).plan || "FREE";
+        token.plan =
+          (user as typeof user & { plan?: "FREE" | "PRO" | "TEAM" }).plan || "FREE";
       }
       return token;
     },

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Wrench } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { APP_NAME } from "@/lib/constants";
 
 export function SiteHeader() {
@@ -36,6 +37,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Link href="/auth/signup">
             <Button size="sm" variant="yellow">
               Start Free

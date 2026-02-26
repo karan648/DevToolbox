@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { AuthForm } from "@/components/layout/auth-form";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export const dynamic = "force-dynamic";
 
@@ -11,11 +12,14 @@ export default function LoginPage() {
       <header className="border-b-[3px] border-black px-4 py-4">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <p className="font-display text-2xl font-black">DevToolbox</p>
-          <Link href="/">
-            <Button size="sm" variant="white">
-              Back Home
-            </Button>
-          </Link>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Link href="/">
+              <Button size="sm" variant="white">
+                Back Home
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
 
