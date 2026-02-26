@@ -49,3 +49,22 @@ export const repoAnalyzerSchema = z.object({
 export const securityHeadersSchema = z.object({
   url: z.string().url("Valid URL required"),
 });
+
+const svgOptimizeOptionsSchema = z.object({
+  removeMetadata: z.boolean().default(true),
+  simplifyPaths: z.boolean().default(true),
+  roundDecimals: z.boolean().default(true),
+  prettify: z.boolean().default(false),
+  precision: z.coerce.number().int().min(0).max(6).default(2),
+});
+
+export const svgOptimizeSchema = z.object({
+  svg: z.string().min(8, "Please paste a valid SVG"),
+  options: svgOptimizeOptionsSchema.default({
+    removeMetadata: true,
+    simplifyPaths: true,
+    roundDecimals: true,
+    prettify: false,
+    precision: 2,
+  }),
+});

@@ -142,7 +142,7 @@ const Sidebar = React.forwardRef<
       ref={ref}
       data-collapsed={String(!open)}
       className={cn(
-        "group/sidebar hidden h-screen shrink-0 border-r-[3px] border-black bg-slate-900 transition-[width] duration-200 md:flex md:flex-col",
+        "group/sidebar relative hidden h-screen shrink-0 self-start border-r-[3px] border-black bg-slate-900 transition-[width] duration-200 md:sticky md:top-0 md:flex md:flex-col",
         open ? "w-72" : collapsible === "icon" ? "w-[88px]" : "w-0",
         className,
       )}

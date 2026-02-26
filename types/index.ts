@@ -8,6 +8,7 @@ export type ToolName =
   | "repo-analyzer"
   | "security-headers"
   | "jwt-inspector"
+  | "svg-optimizer"
   | "settings";
 
 export type RecentTool = {

@@ -2,6 +2,7 @@ import {
   Bot,
   Braces,
   Container,
+  FileImage,
   FlaskConical,
   GitBranch,
   Home,
@@ -64,6 +65,12 @@ export const TOOL_LINKS = [
     label: "JWT Inspector",
     icon: KeySquare,
     key: "jwt-inspector",
+  },
+  {
+    href: "/dashboard/svg-optimizer",
+    label: "SVG Optimizer",
+    icon: FileImage,
+    key: "svg-optimizer",
   },
   {
     href: "/dashboard/settings",
@@ -149,5 +156,10 @@ export const FEATURE_CARDS = [
     title: "JWT Inspector",
     description: "Decode tokens, inspect claims, and validate expiration in seconds.",
     color: "bg-coral",
+  },
+  {
+    title: "SVG Optimizer",
+    description: "Minify SVG assets, remove metadata, and export React-ready markup fast.",
+    color: "bg-orange",
   },
 ] as const;

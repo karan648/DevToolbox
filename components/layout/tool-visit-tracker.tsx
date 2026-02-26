@@ -31,6 +31,9 @@ const mapPathToTool = (pathname: string): { name: ToolName; path: string } => {
   if (pathname.startsWith("/dashboard/jwt-inspector")) {
     return { name: "jwt-inspector", path: "/dashboard/jwt-inspector" };
   }
+  if (pathname.startsWith("/dashboard/svg-optimizer")) {
+    return { name: "svg-optimizer", path: "/dashboard/svg-optimizer" };
+  }
   if (pathname.startsWith("/dashboard/settings")) {
     return { name: "settings", path: "/dashboard/settings" };
   }
